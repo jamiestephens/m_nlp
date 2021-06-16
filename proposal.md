@@ -9,9 +9,14 @@ I'm planning on building my own data set of 1,000+ books from Goodreads using Py
 ### Tools
 
 Selenium: web-scraping Goodreads
-Pandas/SQLAlchemy: data storage and manipulation
-Sklearn CountVectorizer: topic modeling
 
+Pandas/SQLAlchemy: data storage and manipulation
+
+Sklearn CountVectorizer, TSNE: topic modeling
+
+NLTK word_tokenize, LancasterStemmer: NLP preprocessing
+
+Scipy svd: singular value decomposition for matrix factorization
 
 ### MVP Goal
 
