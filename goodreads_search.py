@@ -5,7 +5,6 @@ Created on Wed Jun 16 21:58:31 2021
 @author: Jamie Stephens
 """
 
-
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -15,8 +14,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common import action_chains
 import time
 from csv import reader
-
-
 
 def csvopen(file):   
     URL = 'https://www.goodreads.com/book/show/350.Stranger_in_a_Strange_Land'
@@ -33,8 +30,6 @@ def csvopen(file):
         for row in csv_reader:
             print(row[0])
             getbookinfo(row[0])
-            
-        
 
 def getbook():
     URL = 'https://www.goodreads.com/book/show/350.Stranger_in_a_Strange_Land'
@@ -49,8 +44,6 @@ def getbook():
 
 def getbookinfo(book):
     driver.get(link)
-    
-    
 
 if __name__ == "__main__":
    # getbook()
