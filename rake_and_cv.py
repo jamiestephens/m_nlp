@@ -15,7 +15,8 @@ from sklearn.linear_model import LogisticRegression
 from rake_nltk import Rake
 from sklearn.metrics.pairwise import cosine_similarity
 
-r = Rake()  
+r = Rake() 
+ 
 def supervisedl():
     df = pd.read_csv('./data/output_ratings_rev.csv')
     df.rating.value_counts(normalize=True)
@@ -45,26 +46,13 @@ def supervisedl():
   #  cm5 = conf_matrix(y_test, y_pred_tfidf1_lr)
 
 def rake():
-    df = pd.read_csv('test1.csv')
+    df = pd.read_csv('./data/concatenatedreviews_noratings.csv', index_col=[0, 1])
         
-    df.rating.value_counts(normalize=True)
-    df = df[df.rating!=0]
-    df = df[df.rating!=1]
-    df = df[df.rating!=2]    
-    
-    del df['rating']
-    
-    grouped_df = df.groupby('URL')
-    
-    grouped_lists = grouped_df['review'].agg(lambda column: " ".join(column))
-    
-    grouped_lists = grouped_lists.reset_index(name="review")
+    df['keywords'] = df['review'].apply(lambda x: rake_implement(x,r))
 
-    grouped_lists['keywords'] = grouped_lists['review'].apply(lambda x: rake_implement(x,r))
-
-    print(grouped_lists.head())
+    print(df.head())
     
-    grouped_lists.to_csv('outputwithkeywords1.csv')
+    df.to_csv('./data/postrake.csv')
 
 
 def rake_implement(x,r):
@@ -72,21 +60,13 @@ def rake_implement(x,r):
      return r.get_ranked_phrases()
 
 
-def countvectorizer(title):
-    df = pd.read_csv('outputwithkeywords1.csv')
+def countvectorizer():
+    df = pd.read_csv('./data/postrake.csv')
     indices = pd.Series(df['URL'])
     count = CountVectorizer()
     count_matrix = count.fit_transform(df['keywords'])
     cosine_sim = cosine_similarity(count_matrix, count_matrix)
     print(cosine_sim)
-    recommended_books = []
-    idx = indices[indices == URL].index[0]
-    score_series = pd.Series(cosine_sim[idx]).sort_values(ascending = False)
-    top_10_indices = list(score_series.iloc[1:11].index)
-    
-    for i in top_10_indices:
-        recommended_books.append(list(df['Title'])[i])
-    return recommended_books
 
 if __name__ == "__main__":
     countvectorizer()
